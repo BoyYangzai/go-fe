@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
+import { message, Upload ,Input} from 'antd';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 
@@ -25,6 +25,7 @@ const beforeUpload = (file: RcFile) => {
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const [domain,setDomain] = useState<string>('localhost:8080/upload_avatar')
 
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
@@ -53,9 +54,29 @@ const App: React.FC = () => {
         width:'100vw',
         display: 'flex',
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center',
+        flexWrap:'wrap'
       }
     }>
+      <div style={
+      {
+        width:'100vw',
+        display: 'flex',
+        justifyContent: 'center',
+          alignItems: 'center',
+        marginBottom:'30px'
+      }
+    }>
+        API_URL: <Input
+        onChange={(e) => {
+          setDomain(e.target.value)
+        }}
+        style={{
+        width:'30vw',
+          marginRight: '10px'
+      }}>
+      </Input>
+  </div>
       <div style={
       {
         width:'20vw',
@@ -69,7 +90,7 @@ const App: React.FC = () => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        action={domain}
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
@@ -80,7 +101,7 @@ const App: React.FC = () => {
         listType="picture-circle"
         className="avatar-uploader"
         showUploadList={false}
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        action={domain}
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
